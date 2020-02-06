@@ -1,0 +1,47 @@
+Similar to Yelp using FourSquare API
+
+Search Bar has 
+  -Keywords: (Default should show trending/recommended places)
+  -Location: They can type in a location (or pick a location - might implement)
+
+Google Maps shows the requested venues in that location.
+Expanding individual venues should show more information from API
+such as Menu, Events, Links, Photos, Hours etc.
+
+Once user searches, Call will be made to express API endpoint to retrieve venues.
+Once the venues are received, pin them on the map in some orderly manner. (possibly sound)
+  -Pinning on the map will be based on Lat and Long coords
+
+If user hovers over a pin, basic information should display such as the
+name of the place, category icon, address, website maybe
+
+If a user clicks on the pin, API call to get details of the venues
+and the box expands to show a bigger box with information
+Information:
+  name
+  address
+  Hours
+  phone
+  website url
+  categories - name with icon
+  money signs for how expensive
+  neighborhood
+  photos
+
+API:
+
+/venues/ - get venues near that location - "Search for Venues"
+  GET https://api.foursquare.com/v2/venues/search
+  params limit: 10, near: location (specified by user)
+
+
+/venues/:id - get store based on id - "Get Details of a Venue"
+  GET https://api.foursquare.com/v2/venues/VENUE_ID
+  params VENUE_ID: ID
+
+/venues/saved/:id - save venue with ID in the database
+
+/venues/saved - get list of saved venues
+
+
+
