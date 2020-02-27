@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/venuelocator/static/css/main.13ab466a.chunk.css",
+    "main.js": "/venuelocator/static/js/main.6621b4c6.chunk.js",
+    "main.js.map": "/venuelocator/static/js/main.6621b4c6.chunk.js.map",
+    "runtime-main.js": "/venuelocator/static/js/runtime-main.6955872c.js",
+    "runtime-main.js.map": "/venuelocator/static/js/runtime-main.6955872c.js.map",
+    "static/js/2.b265b276.chunk.js": "/venuelocator/static/js/2.b265b276.chunk.js",
+    "static/js/2.b265b276.chunk.js.map": "/venuelocator/static/js/2.b265b276.chunk.js.map",
+    "index.html": "/venuelocator/index.html",
+    "precache-manifest.fcecf635cdc773e1a0b4640c24605c39.js": "/venuelocator/precache-manifest.fcecf635cdc773e1a0b4640c24605c39.js",
+    "service-worker.js": "/venuelocator/service-worker.js",
+    "static/css/main.13ab466a.chunk.css.map": "/venuelocator/static/css/main.13ab466a.chunk.css.map",
+    "static/js/2.b265b276.chunk.js.LICENSE": "/venuelocator/static/js/2.b265b276.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6955872c.js",
+    "static/js/2.b265b276.chunk.js",
+    "static/css/main.13ab466a.chunk.css",
+    "static/js/main.6621b4c6.chunk.js"
+  ]
+}
