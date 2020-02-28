@@ -3,10 +3,14 @@ import { compose, withProps } from "recompose"
 import './App.css';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
 require('dotenv').config({path: __dirname + "../server/config/.env"});
+let gmap_url = "https://maps.googleapis.com/maps/api/js?key=" + process.env.REACT_APP_GOOGLEMAPS_API;
+if(!process.env.REACT_APP_MAP_KEY){
+  gmap_url = "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places";
+}
 
 const MyMapComponent = compose(
   withProps({
-    googleMapURL: "https://maps.googleapis.com/maps/api/js?key=" + process.env.REACT_APP_GOOGLEMAPS_API,
+    googleMapURL: gmap_url,
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `100%` }} />,
     mapElement: <div style={{ height: `100%` }} />,
@@ -18,8 +22,8 @@ const MyMapComponent = compose(
     defaultZoom={10}
     center={{lat:props.center.lat,lng:props.center.lng}}
   >
-    {props.venues.map((v, index) => {
-      let venue = v.venue;
+    {props.venues.map((venue, index) => {
+      console.log(venue);
       return (
         <Marker 
           key={venue.id} 
@@ -46,23 +50,23 @@ const MyMapComponent = compose(
           <InfoWindow options={{maxWidth: "320", maxHeight: "500"}} onCloseClick={() => props.handleClose()}>
             <div>
               <div>
-                <img alt="" style={{float: "left", paddingRight: "8px"}} src={v.details.venue.bestPhoto.prefix + "100x100" + v.details.venue.bestPhoto.suffix}></img>
+                <img alt="" style={{float: "left", paddingRight: "8px"}} src={venue.details.venue.bestPhoto.prefix + "100x100" + venue.details.venue.bestPhoto.suffix}></img>
                 <div>
-                  <h6 style={{paddingLeft: "8px"}}>{v.details.venue.name}</h6>
+                  <h6 style={{paddingLeft: "8px"}}>{venue.details.venue.name}</h6>
                   <i style={{float: "left", paddingRight:"5px"}} className="far fa-clock"></i>
-                  <p style={{marginBottom: "2px"}}>{v.details.venue.hours.status || "Check website"}</p>
+                  <p style={{marginBottom: "2px"}}>{venue.details.venue.hours.status || "Check website"}</p>
                   <i style={{float: "left", paddingRight:"5px"}} class="fas fa-phone"></i>
-                  <p style={{marginBottom: "2px"}}>{v.details.venue.contact.phone || "Check website"}</p>
+                  <p style={{marginBottom: "2px"}}>{venue.details.venue.contact.phone || "Check website"}</p>
                   <i style={{paddingRight: "5px"}}className="fas fa-globe"></i>
-                  <a href={v.details.venue.url} target="_blank" rel="noopener noreferrer">{v.details.venue.url}</a>
+                  <a href={venue.details.venue.url} target="_blank" rel="noopener noreferrer">{venue.details.venue.url}</a>
                 </div>
               </div>
               <div style={{paddingTop: "10px"}}>
                 <i style={{float: "left", paddingRight:"5px"}} className="fas fa-map-marker"></i>
-                <p style={{marginBottom: "2px"}}>{v.details.venue.location.formattedAddress.toString()}</p>
+                <p style={{marginBottom: "2px"}}>{venue.details.venue.location.formattedAddress.toString()}</p>
               </div>
               <i style={{float: "left", paddingRight:"5px"}} class="fas fa-dollar-sign"></i>
-              <p defaultValue="Moderate" style={{marginBottom: "2px"}}>{v.details.venue.price.message || "Moderate"}</p>
+              <p defaultValue="Moderate" style={{marginBottom: "2px"}}>{venue.details.venue.price.message || "Moderate"}</p>
             </div>
           </InfoWindow>
           }
@@ -99,8 +103,8 @@ class Map extends React.PureComponent {
       })
     }
     // get venue with id to check for details 
-    let result = this.state.venues.filter(v => {
-      return v.venue.id === venueID
+    let result = this.state.venues.filter(venue => {
+      return venue.id === venueID
     });
 
     // check for details to prevent unnecessary refetching
@@ -126,7 +130,7 @@ class Map extends React.PureComponent {
   }
 
   async getVenueDetails(venueID) {
-    const response = await fetch("http://localhost:5000/" + venueID,{
+    const response = await fetch("http://localhost:5000/venuedetails/" + venueID,{
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -137,18 +141,19 @@ class Map extends React.PureComponent {
     }).then((myJson) => {
 
       //Adds details object to venue
-      for(let x in this.state.venues){
-        if(this.state.venues[x].venue.id === venueID){
-          this.state.venues[x]['details'] = myJson.response;
+      for(let x of this.state.venues){
+        console.log(this.state.venues);
+        if(x.id === venueID){
+          x['details'] = myJson.response;
           //dirty validation. do on server side
           if(!myJson.response.venue.price){
-            this.state.venues[x]['details'].venue['price'] = {message: "Moderate"};
+            x['price'] = {message: "Moderate"};
           }
           if(!myJson.response.venue.hours){
-            this.state.venues[x]['details'].venue['hours'] = {status: "Check Website"};
+            x['hours'] = {status: "Check Website"};
           }
           if(!myJson.response.venue.contact.phone){
-            this.state.venues[x]['details'].venue['contact'] = {phone: "Check Website"};
+            x['contact'] = {phone: "Check Website"};
           }
           return;
         }
@@ -161,8 +166,8 @@ class Map extends React.PureComponent {
     this.setState({
       venues: formState,
       center: {
-        lat: formState[0].venue.location.lat,
-        lng: formState[0].venue.location.lng
+        lat: formState[0].location.lat,
+        lng: formState[0].location.lng
       }
     });
   }
@@ -213,8 +218,8 @@ class Search extends Component {
   }
 
   handleSubmit(e) {
-    let url = new URL("http://localhost:5000/venues");
-    let params = {q:this.state.query, l:this.state.location}
+    let url = new URL("http://localhost:5000/searchvenues");
+    let params = {query:this.state.query, near:this.state.location}
     url.search = new URLSearchParams(params).toString();
 
     fetch(url, {
@@ -225,8 +230,8 @@ class Search extends Component {
       }
     }).then((rawres) => {
       return rawres.json();
-    }).then((myJson) => {
-      let venues = myJson.response.groups[0].items;
+    }).then((venues) => {
+      //let venues = myJson.response.groups[0].items;
       this.props.handleData(venues);
     });
     e.preventDefault();
@@ -236,7 +241,6 @@ class Search extends Component {
     const formstyle = {
       paddingLeft: "4vh",
       paddingTop: "2vh",
-      width: "100%",
       position: "relative",
       borderColor: "#000000"
     };
