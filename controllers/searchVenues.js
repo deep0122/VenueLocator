@@ -6,6 +6,7 @@ exports.getSearchVenues = (req, res, next) => {
     console.log(req.query);
     console.log("-------");
     getVenues(req).then((response) => {
+        console.log(response);
         if(response.meta.code == 200){
             res.status(200).send(response.response.venues);
         }else{
