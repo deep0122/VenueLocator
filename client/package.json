@@ -10,8 +10,9 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-google-maps": "^9.4.5",
-    "react-scripts": "3.2.0",
-    "recompose": "^0.30.0"
+    "react-scripts": "^3.4.0",
+    "recompose": "^0.30.0",
+    "request": "^2.88.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -19,6 +20,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:5000",
   "eslintConfig": {
     "extends": "react-app"
   },
