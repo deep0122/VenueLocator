@@ -21,7 +21,7 @@ app.use(cors({origin: ['http://localhost:3000']}));
 app.use('/', require('./routes/venues'));
 
 
-const port = process.env.EXPRESS_PORT || 5000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`VenueLocator listening on port ${port}!`);
 });
