@@ -217,6 +217,7 @@ class Search extends Component {
   }
 
   handleSubmit(e) {
+    e.preventDefault();
     let url = new URL("/searchvenues");
     let params = {query:this.state.query, near:this.state.location}
     url.search = new URLSearchParams(params).toString();
@@ -233,7 +234,6 @@ class Search extends Component {
       //let venues = myJson.response.groups[0].items;
       this.props.handleData(venues);
     });
-    e.preventDefault();
   }
 
   render() {
