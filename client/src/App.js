@@ -218,11 +218,8 @@ class Search extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    let url = new URL("/searchvenues");
-    let params = {query:this.state.query, near:this.state.location}
-    url.search = new URLSearchParams(params).toString();
 
-    fetch(url, {
+    fetch("/searchvenues?" + "query=" + this.state.query + "&near=" + this.state.location, {
       method: 'GET',
       mode: 'cors',
       headers: {
