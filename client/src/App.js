@@ -23,7 +23,6 @@ const MyMapComponent = compose(
     center={{lat:props.center.lat,lng:props.center.lng}}
   >
     {props.venues.map((venue, index) => {
-      console.log(venue);
       return (
         <Marker 
           key={venue.id} 
@@ -277,7 +276,7 @@ class Search extends Component {
       <div class="input" style={formstyle}>
         <div class="searchdiv">
           <form style={inputstyle} onSubmit={this.handleSubmit}>
-            <span style={inputstyle} class="fa-border">Venue Locator</span>
+            <span style={inputstyle} className="fa-border">Venue Locator</span>
             <button style={buttonstyle} className="fas fa-search fa-border" disabled></button>
             <input type="text" style={textstyle} name="query" onChange={this.handleChange} placeholder="Search"></input>
             <button style={buttonstyle} className="fas fa-map-marker-alt fa-border" disabled></button>
