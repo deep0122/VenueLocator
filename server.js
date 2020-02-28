@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, 'client/build')))
 app.use(express.json());
 
 // use cors
-app.use(cors({origin: ['http://localhost:3000']}));
+app.use(cors());
 
 // routes
 app.use('/', require('./routes/venues'));
