@@ -129,7 +129,7 @@ class Map extends React.PureComponent {
   }
 
   async getVenueDetails(venueID) {
-    const response = await fetch("http://localhost:5000/venuedetails/" + venueID,{
+    const response = await fetch("/venuedetails/" + venueID,{
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -217,7 +217,7 @@ class Search extends Component {
   }
 
   handleSubmit(e) {
-    let url = new URL("http://localhost:5000/searchvenues");
+    let url = new URL("/searchvenues");
     let params = {query:this.state.query, near:this.state.location}
     url.search = new URLSearchParams(params).toString();
 
