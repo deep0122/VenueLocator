@@ -32,7 +32,7 @@ Required API Credentials
 npm install
 npm start
 ```
-Execute in both server for express and root for react then visit http://localhost:3000  
+Execute in both root directory for express and client folder for react then visit http://localhost:3000  
 
 
 
